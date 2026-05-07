@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -21,6 +23,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -42,12 +49,16 @@ class MainActivity : ComponentActivity() {
 
                 Column(
                     modifier = Modifier
+                        .fillMaxSize()
                         .verticalScroll(rememberScrollState())
                 ) {
                     Text()
                     LearnColumn()
                     LearnRow()
                     LearnBox()
+                    Counter()
+                    TextState()
+
                 }
             }
         }
@@ -152,13 +163,14 @@ fun LearnBox() {
             .padding(5.dp)
             .border(1.dp, color = Color.Black)
             .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceAround,
     ) {
 
         Box(
             modifier = Modifier
                 .padding(10.dp)
                 .background(color = Color.Cyan)
-
+                .weight(1f)
                 .size(100.dp)
         ){
             Box(
@@ -177,7 +189,7 @@ fun LearnBox() {
             modifier = Modifier
                 .padding(10.dp)
                 .background(color = Color.Cyan)
-
+                .weight(1f)
                 .size(100.dp)
         ){
             Box(
@@ -196,7 +208,7 @@ fun LearnBox() {
             modifier = Modifier
                 .padding(10.dp)
                 .background(color = Color.Cyan)
-
+                .weight(1f)
                 .size(100.dp)
         ){
             Box(
@@ -212,8 +224,88 @@ fun LearnBox() {
     }}
 }
 
+@Composable
+fun Counter() {
+
+    var count by remember { mutableIntStateOf(0) }
 
 
+
+    Column(
+        modifier = Modifier
+            .padding(10.dp)
+            .border(1.dp, color = Color.Black)
+            .fillMaxWidth()
+
+    ) {
+        Text(
+            text = "Counter",
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .height(60.dp),
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically
+    )
+    {
+        Button(
+            shape = RoundedCornerShape(15.dp),
+            onClick = {
+                count++
+            }) {
+            Text("Count")
+        }
+
+
+
+        Text(
+            text = count.toString(),
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Button(
+            shape = RoundedCornerShape(15.dp),
+            elevation = ButtonDefaults.elevatedButtonElevation(10.dp),
+            onClick = {
+                count = 0
+            }) {
+            Text("Reset")
+        }
+    }
+}}
+
+@Composable
+fun TextState() {
+
+    var textState by remember { mutableStateOf("Hi") }
+    Column(
+        modifier = Modifier
+            .padding(10.dp)
+            .border(1.dp, color = Color.Black)
+            .fillMaxWidth()
+    ) {
+        Text(
+           text =  "Click button to change text state = $textState",
+            fontSize = 15.sp,
+            modifier = Modifier.offset(10.dp)
+        )
+        Button(
+            shape = RoundedCornerShape(15.dp),
+            modifier = Modifier.offset(10.dp),
+            onClick = {
+                textState = "Hello there"
+            }) {
+            Text("Change Text State")
+        }
+    }
+}
 
 
 
@@ -223,13 +315,17 @@ fun LearnBox() {
 fun GreetingPreview() {
     JetpackComposeS4Theme {
         Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-        ){
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
             Text()
             LearnColumn()
             LearnRow()
             LearnBox()
+            Counter()
+            TextState()
+
         }
     }
 }
