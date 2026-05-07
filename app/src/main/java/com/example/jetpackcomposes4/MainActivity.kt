@@ -10,13 +10,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,7 +40,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComposeS4Theme {
 
-                Column {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                ) {
                     Text()
                     LearnColumn()
                     LearnRow()
@@ -94,17 +105,28 @@ fun LearnRow() {
         )
         Row(
             modifier = Modifier
-                .padding(top = 1.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+                .padding(10.dp)
+                .fillMaxWidth()
+                .height(60.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .alpha(0.6f) // transparent
+                .background(MaterialTheme.colorScheme.primaryContainer),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
         )
         {
             Button(
+                shape = RoundedCornerShape(15.dp),
+                colors = ButtonDefaults.buttonColors(Color.Blue),
+                elevation = ButtonDefaults.elevatedButtonElevation(20.dp),
                 onClick = {}) {
                 Text("Click Me 1")
             }
 
             Button(
+                shape = RoundedCornerShape(15.dp),
+                colors = ButtonDefaults.buttonColors(Color.Blue),
+                elevation = ButtonDefaults.elevatedButtonElevation(20.dp),
                 onClick = {}) {
                 Text("Click Me 2")
             }
@@ -129,7 +151,6 @@ fun LearnBox() {
         modifier = Modifier
             .padding(5.dp)
             .border(1.dp, color = Color.Black)
-
             .fillMaxWidth(),
     ) {
 
@@ -201,7 +222,10 @@ fun LearnBox() {
 @Composable
 fun GreetingPreview() {
     JetpackComposeS4Theme {
-        Column {
+        Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+        ){
             Text()
             LearnColumn()
             LearnRow()
