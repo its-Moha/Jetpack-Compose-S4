@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
                     LearnBox()
                     Counter()
                     TextState()
-
+                    TextVisibilityState()
                 }
             }
         }
@@ -89,6 +89,7 @@ fun LearnColumn(){
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Text("Learn Column")
+
         Button(
             onClick = {}) {
             Text("Click Me 1")
@@ -154,10 +155,11 @@ fun LearnBox() {
             .border(1.dp, color = Color.Black)
 
     ) {
+        
     Text("Learn Box's", textAlign = TextAlign.Center,
-        modifier = Modifier
+        modifier = Modifier.fillMaxWidth())
 
-            .fillMaxWidth())
+
     Row(
         modifier = Modifier
             .padding(5.dp)
@@ -308,6 +310,58 @@ fun TextState() {
 }
 
 
+@Composable
+fun TextVisibilityState(){
+
+
+    //toggle
+    var isVisible by remember {
+        mutableStateOf(true)
+    }
+    Column(
+        modifier = Modifier
+            .padding(top = 10.dp)
+            .fillMaxWidth()
+
+            .padding(10.dp)
+            .border(1.dp, Color.Black)
+    ) {
+
+        Text(
+                text =  "Text Visibility State",
+            fontSize = 15.sp,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center)
+
+        Row(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Button(
+                onClick = {
+
+
+                    //When you click the button, it runs !isVisible (the "NOT" operator).
+                    //If it was true, it becomes false. If it was false, it becomes true.
+                    //As soon as this value changes, Compose triggers a Recomposition—it basically re-runs the function to see what the UI should look like now.
+                    isVisible = !isVisible
+                }
+            ) {
+                Text(if(isVisible)"Hide Text" else "Show Text")
+            }
+
+
+            if (isVisible){
+                Text("Text is Visible")
+            }
+            }
+
+
+        }
+    }
 
 
 @Preview(showSystemUi = true)
@@ -325,7 +379,7 @@ fun GreetingPreview() {
             LearnBox()
             Counter()
             TextState()
-
+            TextVisibilityState()
         }
     }
 }
