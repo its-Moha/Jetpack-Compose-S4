@@ -350,17 +350,18 @@ fun TextVisibilityState(){
                     isVisible = !isVisible
                 }
             ) {
-                Text(if(isVisible)"Hide Text" else "Show Text")
+                Text(
+                    if(isVisible)"Hide Text" else "Show Text")
             }
 
 
-            if (isVisible){
-                Text("Text is Visible")
-            }
-            }
+                Text(modifier = Modifier
+                    .alpha(if (isVisible) 1f else 0.3f),
 
 
-        }
+                    text = if(isVisible)"Text is Visible" else "Text isn't Visible")
+            }
+    }
     }
 
 
