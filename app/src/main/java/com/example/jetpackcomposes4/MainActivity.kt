@@ -17,11 +17,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -33,7 +37,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -59,6 +66,8 @@ class MainActivity : ComponentActivity() {
                     Counter()
                     TextState()
                     TextVisibilityState()
+                    TextFieldExample()
+
                 }
             }
         }
@@ -365,6 +374,85 @@ fun TextVisibilityState(){
     }
 
 
+@Composable
+fun TextFieldExample() {
+
+    var textFieldState by remember {
+        mutableStateOf("")
+    }
+
+    val focusManager = LocalFocusManager.current
+
+    var showResult by remember {
+        mutableStateOf(false)
+    }
+    Column(
+        modifier = Modifier
+            .padding(top = 10.dp)
+            .padding(10.dp)
+            .fillMaxWidth()
+            .border(1.dp,Color.Black)
+    ) {
+        Text(
+            text =  "Text Field",
+            fontSize = 15.sp,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+
+
+        TextField(
+            value = textFieldState,
+            onValueChange = {textFieldState = it},
+            label = {
+                Text("TextField")
+            },
+            placeholder = {
+                Text("Enter your text here ...")
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                }
+            ),
+
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
+
+            ),
+
+            modifier = Modifier
+                .fillMaxWidth(),
+        )
+
+        Row(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+        Button(
+            onClick = {
+                showResult = true
+            }
+        ) {
+            Text("Show Text")
+        }
+
+        if (showResult){
+            Text("result is = $textFieldState")
+        }
+    }}
+}
+
 @Preview(showSystemUi = true)
 @Composable
 fun GreetingPreview() {
@@ -381,6 +469,7 @@ fun GreetingPreview() {
             Counter()
             TextState()
             TextVisibilityState()
+            TextFieldExample()
         }
     }
 }
