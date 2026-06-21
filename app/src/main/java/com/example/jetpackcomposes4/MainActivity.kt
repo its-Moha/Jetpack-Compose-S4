@@ -38,10 +38,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -77,9 +80,45 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Text(){
     Text(
-        text = "Learn JetPack Compose",
-        fontSize = 30.sp,
+        buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    color = Color.Green,
+                    fontSize = 31.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            ){
+                append("L")
+            }
+            append("earn")
+
+
+            withStyle(
+                style = SpanStyle(
+                    color = Color.Green,
+                    fontSize = 31.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            ){
+                append(" J")
+            }
+            append("etpack")
+
+
+            withStyle(
+                style = SpanStyle(
+                    color = Color.Green,
+                    fontSize = 31.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            ){
+                append(" C")
+            }
+            append("ompose")
+        },
+        fontSize = 25.sp,
         fontWeight = FontWeight.Bold,
+        color = Color.DarkGray,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .padding(10.dp)
