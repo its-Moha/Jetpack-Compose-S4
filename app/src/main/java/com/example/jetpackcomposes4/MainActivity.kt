@@ -3,6 +3,7 @@ package com.example.jetpackcomposes4
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -37,7 +39,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -70,6 +74,7 @@ class MainActivity : ComponentActivity() {
                     TextState()
                     TextVisibilityState()
                     TextFieldExample()
+                    ImageExample()
 
                 }
             }
@@ -430,7 +435,7 @@ fun TextFieldExample() {
             .padding(top = 10.dp)
             .padding(10.dp)
             .fillMaxWidth()
-            .border(1.dp,Color.Black)
+            .border(1.dp, Color.Black)
     ) {
         Text(
             text =  "Text Field",
@@ -492,6 +497,40 @@ fun TextFieldExample() {
     }}
 }
 
+@Composable
+fun ImageExample() {
+
+    Column(
+        modifier = Modifier
+            .padding(top = 10.dp)
+            .padding(10.dp)
+            .fillMaxWidth()
+            .border(1.dp, Color.Black)
+    ) {
+        Text(
+            text = "Image",
+            fontSize = 15.sp,
+            modifier = Modifier.fillMaxWidth().padding(5.dp),
+            textAlign = TextAlign.Center
+        )
+
+        Image(
+            painter = painterResource(id = R.drawable.me),
+            contentDescription = "Me",
+            modifier = Modifier
+                .padding(5.dp)
+                .fillMaxWidth()
+                .size(200.dp)
+                .clip(CircleShape)
+                ,
+            contentScale = ContentScale.Crop
+        )
+    }
+}
+
+
+
+
 @Preview(showSystemUi = true)
 @Composable
 fun GreetingPreview() {
@@ -509,6 +548,7 @@ fun GreetingPreview() {
             TextState()
             TextVisibilityState()
             TextFieldExample()
+            ImageExample()
         }
     }
 }
