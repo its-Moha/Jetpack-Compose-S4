@@ -87,11 +87,12 @@ fun MyTabs() {
 
     val tablist = listOf("Basic Ui", "Mid-Level UI", "Advanced Ui")
 
+    //keeps track of which page (tab) is currently visible.
     val pagerState = rememberPagerState(
 
-        initialPage = 0,
+        initialPage = 0, //start on the first tab
         pageCount = {
-            tablist.size
+            tablist.size //tells the pager how many pages there are.
         }
     )
 
@@ -99,6 +100,7 @@ fun MyTabs() {
 
     Column() {
 
+        //Creates the row of tab buttons at the top.
         PrimaryTabRow(
             selectedTabIndex = pagerState.currentPage,
 
@@ -107,26 +109,37 @@ fun MyTabs() {
 
 
         ) {
+
+            //This goes through each tab in the list:  //index → number (0, 1, 2)  //title → text ("Home", "Profile", "Settings")
             tablist.forEachIndexed { index, title ->
 
                 Tab(
+
+                    //highlights the tab if it matches the current page.
                     selected = pagerState.currentPage == index,
                     onClick = {
                         scope.launch {
+                            //Clicking a tab calls scrollToPage(index), which scrolls the pager to the right page.
+
                             pagerState.scrollToPage(index)
                         }
                     },
                   text = {
+                      //shows the tab’s text.
                       Text(title)
                   }
                 )
             }
         }
 
+        //The swipeable pager that holds all tab screens.
+        //shows one screen at a time and lets you swipe left/right.
+
         HorizontalPager(
+            //connects it to the tab buttons.
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
-        ) { page ->
+        ) { page -> //is the index of the current page being shown.
             when(page){
               0 -> Tap1 ()
               1 -> Tap2 ()
@@ -137,13 +150,29 @@ fun MyTabs() {
 }
 
 @Composable
-fun Tap3() {
-
+fun Tap2() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Feature Coming Soon",
+            fontSize = 30.sp)
+    }
 }
 @Composable
-fun Tap2() {
-    
+fun Tap3() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Feature Coming Soon",
+            fontSize = 30.sp)
+    }
 }
+
+
 @Composable
 fun Tap1(){
     Column(
