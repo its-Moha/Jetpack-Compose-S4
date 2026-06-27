@@ -139,7 +139,7 @@ fun Tap2() {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-
+        LoadImage()
 
 
     }
