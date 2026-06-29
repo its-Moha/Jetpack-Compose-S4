@@ -140,7 +140,7 @@ fun Tap2() {
             .verticalScroll(rememberScrollState())
     ) {
         LoadImage()
-
+        Dialog()
 
     }
 }

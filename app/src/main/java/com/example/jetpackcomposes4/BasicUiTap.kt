@@ -398,7 +398,7 @@ fun TextFieldExample() {
     }
     Column(
         modifier = Modifier
-            .padding(top = 10.dp)
+            .padding(top = 15.dp)
             .padding(10.dp)
             .fillMaxWidth()
             .border(1.dp, Color.Black)

@@ -1,25 +1,43 @@
 package com.example.jetpackcomposes4
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.ImageNotSupported
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -112,6 +130,155 @@ fun LoadImage() {
 
     }
 
+
+@Composable
+fun Dialog() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(180.dp)
+            .padding(top = 10.dp)
+            .padding(10.dp)
+            .border(1.dp, color = Color.Black)
+        ,
+
+    ) {
+
+        Text(
+            text = "Dialog In Compose",
+            fontSize = 15.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp),
+            textAlign = TextAlign.Center
+        )
+
+        var openDialog by remember {
+            mutableStateOf(false)
+        }
+
+        var myTextField by remember {
+            mutableStateOf("")
+        }
+
+        var addedText by remember {
+            mutableStateOf("")
+        }
+
+        val focusManager = LocalFocusManager.current
+
+        val context =  LocalContext.current
+
+        Button(
+            onClick = {
+                openDialog = true
+            },
+            modifier = Modifier.padding(10.dp)
+        ) {
+            Text("Open dialog")
+        }
+
+        if (openDialog){
+            AlertDialog(
+
+
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "add",
+                    )
+                },
+
+                title = {
+                    Text("Add Item")
+                },
+
+                text = {
+                    OutlinedTextField(
+                        value = myTextField,
+                        onValueChange = {
+                            myTextField = it
+                        },
+                        placeholder = {
+                            Text("Add Item")
+                        },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "add"
+                            )
+                        },
+
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                focusManager.clearFocus()
+                            }
+                        ),
+                        shape = RoundedCornerShape(10.dp)
+
+                    )
+                },
+
+                onDismissRequest = {
+                    openDialog = false
+                },
+
+
+                confirmButton = {
+
+                    TextButton(
+                        onClick = {
+
+                            if (myTextField.isNotEmpty()) {
+                                Toast.makeText(context, "Item added $myTextField", Toast.LENGTH_SHORT).show()
+
+                                addedText = myTextField
+                                openDialog = false
+                                myTextField = ""
+                            }else{
+                                Toast.makeText(
+                                    context,
+                                    "Please enter text",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    ) {
+                        Text("Confirm")
+                    }
+                },
+
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            myTextField = ""
+                            openDialog = false
+                            focusManager.clearFocus()
+                        }
+                    ) {
+                        Text("Cancel")
+                    }
+                }
+
+            )
+
+
+        }
+
+        Spacer(modifier = Modifier.padding(4.dp))
+        if (addedText.isNotEmpty()){
+            Text(
+                text = "Item added = $addedText",
+                modifier = Modifier.padding(10.dp))
+        }
+
+
+    }
+}
 
 
 
