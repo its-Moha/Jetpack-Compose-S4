@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,6 +19,9 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.ImageNotSupported
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -281,9 +285,80 @@ fun Dialog() {
 }
 
 
+data class Items(
+    val isChecked: Boolean,
+    val task: String
+)
+
+var myTodoItems = listOf(
+    Items(true, "Learn Kotlin"),
+    Items(false, "Learn Compose"),
+    Items(false, "Learn Retrofit")
+)
+
+@Composable
+fun TodoListCheckbox() {
+
+    var todoList by remember {
+        mutableStateOf(myTodoItems)
+    }
+
+    Column(
+        modifier = Modifier
+            .padding(top = 10.dp)
+            .fillMaxWidth()
+            .height(230.dp)
+            .padding(10.dp)
+            .border(1.dp, color = Color.Black)
+    ) {
+        Text("Todo List Checkbox", textAlign = TextAlign.Center,modifier = Modifier.fillMaxWidth())
 
 
+        //For each to-do item in my list, do something.
+        todoList.forEachIndexed { index, items ->
 
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 5.dp)
+                    .padding(2.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 7.dp )
+
+            ) {
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+
+                    verticalAlignment = Alignment.CenterVertically
+
+                ) {
+                    Checkbox(
+                        checked = items.isChecked,
+                        onCheckedChange = {isChecked ->
+
+                            //Make a new copy of my list that I’m allowed to edit.
+                            //.also { ... }
+                            //This says, “While I’m making that new list,
+                            // also do something with it inside these curly braces.”
+                            todoList = todoList.toMutableList().also {
+                                it[index] = it[index].copy(isChecked = isChecked)
+                                ///Find the box at the tapped position (index) and make a new version of it with the checkmark flipped.
+                                //
+                                //it[index] means “the box in the list at this position.”
+                                //
+                                //.copy(isChecked = isChecked) means “make a new box with the same name, but update the checkmark.”
+                            }
+                        }
+                    )
+                    Text(text = items.task)
+                }
+
+            }
+        }
+
+    }
+}
 
 
 

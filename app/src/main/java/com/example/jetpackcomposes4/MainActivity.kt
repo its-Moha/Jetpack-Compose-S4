@@ -141,6 +141,7 @@ fun Tap2() {
     ) {
         LoadImage()
         Dialog()
+        TodoListCheckbox()
 
     }
 }
