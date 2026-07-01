@@ -59,7 +59,7 @@ fun MyTabs() {
 
     val scope = rememberCoroutineScope()
 
-    Column() {
+    Column {
 
         //Creates the row of tab buttons at the top.
         PrimaryTabRow(
@@ -142,6 +142,7 @@ fun Tap2() {
         LoadImage()
         Dialog()
         TodoListCheckbox()
+        Chips(listOf("Android", "Kotlin", "Compose","Retrofit","MVVM","Dagger/Hilt","Room","Coroutines","KOIN"))
 
     }
 }

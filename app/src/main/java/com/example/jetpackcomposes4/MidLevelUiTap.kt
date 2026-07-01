@@ -2,8 +2,11 @@ package com.example.jetpackcomposes4
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -31,6 +35,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -361,7 +366,53 @@ fun TodoListCheckbox() {
 }
 
 
+@Composable
+fun Chips(
+    chips: List<String>
+) {
 
+    var selectedChip by remember {
+        mutableIntStateOf(0)
+    }
+
+    Column(
+        modifier = Modifier
+            .padding(top = 5.dp)
+            .fillMaxWidth()
+            .padding(10.dp)
+            .height(120.dp)
+            .border(1.dp, Color.DarkGray)
+
+    ) {
+
+        Text("Chips", textAlign = TextAlign.Center,modifier = Modifier.fillMaxWidth())
+
+        LazyRow {
+            items(chips.size) {
+
+                Box(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable(
+                            onClick = {
+                                selectedChip = it
+                            }
+                        )
+                        .background(
+                            if (selectedChip == it) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.outline
+                        )
+                        .padding(10.dp)
+
+
+                ) {
+                    Text(chips[it], color = Color.White)
+                }
+            }
+        }
+    }
+
+}
 
 
 
