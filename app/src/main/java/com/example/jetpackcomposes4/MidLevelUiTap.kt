@@ -304,6 +304,10 @@ var myTodoItems = listOf(
 @Composable
 fun TodoListCheckbox() {
 
+    // remember : Keep this value while the screen is alive
+    // mutableStateOf = “If this value changes, redraw the screen.”
+    // todoList is the list that Compose watches
+
     var todoList by remember {
         mutableStateOf(myTodoItems)
     }
@@ -320,6 +324,9 @@ fun TodoListCheckbox() {
 
 
         //For each to-do item in my list, do something.
+        // index → its position (0, 1, 2…)
+        // items → the actual todo item
+
         todoList.forEachIndexed { index, items ->
 
             Card(
@@ -340,9 +347,12 @@ fun TodoListCheckbox() {
                 ) {
                     Checkbox(
                         checked = items.isChecked,
+
+                        // When the user taps the checkbox, this function runs.
                         onCheckedChange = {isChecked ->
 
                             //Make a new copy of my list that I’m allowed to edit.
+                            // b/c our original list is read-only. So we create a new list that can be edited.
                             //.also { ... }
                             //This says, “While I’m making that new list,
                             // also do something with it inside these curly braces.”
@@ -350,7 +360,7 @@ fun TodoListCheckbox() {
                                 it[index] = it[index].copy(isChecked = isChecked)
                                 ///Find the box at the tapped position (index) and make a new version of it with the checkmark flipped.
                                 //
-                                //it[index] means “the box in the list at this position.”
+                                //it[index] means “the box in the list at this position.” like: “Get the item at position 1.”
                                 //
                                 //.copy(isChecked = isChecked) means “make a new box with the same name, but update the checkmark.”
                             }
@@ -368,7 +378,13 @@ fun TodoListCheckbox() {
 
 @Composable
 fun Chips(
+
+    //The function receives a list of strings.
+    //For example:
+    //Chips( chips = listOf("Kotlin","Compose", "Retrofit", "Firebase"))
+   // so instead of listing them down now we will do it letter
     chips: List<String>
+   // whenever you call Chips(), you must give it a list of strings.
 ) {
 
     var selectedChip by remember {
@@ -388,25 +404,38 @@ fun Chips(
         Text("Chips", textAlign = TextAlign.Center,modifier = Modifier.fillMaxWidth())
 
         LazyRow {
-            items(chips.size) {
+            //This repeats something for every chip.
 
+
+            items(chips.size) { index ->
+
+                //Each chip is drawn inside a Box.
+
+                //Box as a container.
+                //One Box = One chip.
                 Box(
                     modifier = Modifier
                         .padding(10.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable(
                             onClick = {
-                                selectedChip = it
+                                selectedChip = index
                             }
                         )
                         .background(
-                            if (selectedChip == it) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.outline
+                            if (selectedChip == index)
+                                MaterialTheme.colorScheme.primaryContainer
+                            else
+                                MaterialTheme.colorScheme.outline
                         )
                         .padding(10.dp)
 
 
                 ) {
-                    Text(chips[it], color = Color.White)
+                    //If index = 0  it displays  Kotlin
+                    //If index = 1  it displays Compose
+                    //and so on.
+                    Text(chips[index], color = Color.White)
                 }
             }
         }
