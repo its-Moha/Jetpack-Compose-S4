@@ -325,7 +325,7 @@ fun TodoListCheckbox() {
 
         //For each to-do item in my list, do something.
         // index → its position (0, 1, 2…)
-        // items → the actual todo item
+        // items → the actual todoitem
 
         todoList.forEachIndexed { index, items ->
 
