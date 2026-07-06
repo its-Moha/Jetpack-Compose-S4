@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -23,6 +25,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.ImageNotSupported
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -43,17 +46,170 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.size.Size
+
+data class ListItems(
+    val name : String,
+    val image:Int
+)
+
+val myListItems = listOf(
+    ListItems("beef",R.drawable.beef),
+    ListItems("burger",R.drawable.burger),
+    ListItems("chicken",R.drawable.chicken),
+    ListItems("iceCream",R.drawable.icecream),
+    ListItems("liver",R.drawable.liver),
+    ListItems("macaroni",R.drawable.macaroni),
+    ListItems("noodles",R.drawable.noodles),
+    ListItems("omelette",R.drawable.omelette),
+    ListItems("pizza",R.drawable.pizza),
+    ListItems("rice",R.drawable.rice),
+    ListItems("sandwich",R.drawable.sandwich),
+    ListItems("sushi",R.drawable.sushi),
+)
+
+// what one item Will Look like
+
+@Composable
+fun MyItem(
+
+    myAllList: ListItems
+) {
+
+    Card(
+        modifier = Modifier.padding(10.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+        shape = RoundedCornerShape(10.dp)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+
+        ) {
+
+            Image(
+                painter = painterResource(id = myAllList.image),
+                contentDescription = "Image",
+                modifier = Modifier
+                    .height(160.dp)
+                    .width(160.dp),
+                contentScale = ContentScale.Crop,
+            )
+
+            Text(
+                text = myAllList.name,
+                modifier = Modifier.fillMaxWidth(),
+                fontSize = 25.sp,
+                textAlign = TextAlign.Center
+
+            )
+        }
+    }
+
+}
+
+
+@Composable
+fun LazyListScreen(modifier: Modifier = Modifier) {
+
+}
+
+@Composable
+fun ColumnListScreen(modifier: Modifier = Modifier) {
+
+}
+
+@Composable
+fun GridListScreen(modifier: Modifier = Modifier) {
+
+}
+
+
+
+@Composable
+fun ListInCompose(navController: NavController) {
+
+    Column(
+        modifier = Modifier
+            .padding(top = 10.dp)
+            .padding(10.dp)
+            .fillMaxWidth()
+            .border(1.dp, color = Color.Black)
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Types of List in Compose", fontSize = 15.sp, modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 5.dp), textAlign = TextAlign.Center)
+        Button(
+            modifier = Modifier
+                .width(180.dp),
+            onClick = {
+                navController.navigate("lazyRowScreen")
+            },
+            shape = RoundedCornerShape(5.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+            ) {
+            Text("Lazy Row Screen")
+        }
+
+
+        Button(
+            modifier = Modifier
+                .width(180.dp),
+            onClick = {
+                navController.navigate("columnRowScreen")
+            },
+            shape = RoundedCornerShape(5.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        ) {
+            Text("Column Row Screen")
+        }
+
+
+        Button(
+            modifier = Modifier
+                .width(180.dp),
+            onClick = {
+                navController.navigate("gridRowScreen")
+            },
+            shape = RoundedCornerShape(5.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        ) {
+            Text("Grid Row Screen")
+        }
+    }
+
+}
+
+
+
+
+
 
 
 @Composable
@@ -325,7 +481,7 @@ fun TodoListCheckbox() {
 
         //For each to-do item in my list, do something.
         // index → its position (0, 1, 2…)
-        // items → the actual todoitem
+        // items → the actual todo item
 
         todoList.forEachIndexed { index, items ->
 
@@ -442,6 +598,9 @@ fun Chips(
     }
 
 }
+
+
+
 
 
 

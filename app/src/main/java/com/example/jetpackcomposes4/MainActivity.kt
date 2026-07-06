@@ -18,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposes4.ui.theme.JetpackComposeS4Theme
 import kotlinx.coroutines.launch
 
@@ -45,6 +46,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyTabs() {
+
 
     val tablist = listOf("Basic Ui", "Mid-Level UI", "Advanced Ui")
 
@@ -134,11 +136,15 @@ fun Tap1(){
 
 @Composable
 fun Tap2() {
+
+    val navController = rememberNavController()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
+        ListInCompose(navController = navController)
         LoadImage()
         Dialog()
         TodoListCheckbox()
