@@ -144,7 +144,7 @@ fun Tap2() {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        ListInCompose(navController = navController)
+        ListNavigation()
         LoadImage()
         Dialog()
         TodoListCheckbox()

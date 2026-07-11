@@ -16,7 +16,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -56,10 +61,60 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.size.Size
+
+
+
+sealed class Screens(val route:String){
+    object HomeScreen:Screens("homeScreen")
+    object LazyRowScreen:Screens("lazyRowScreen")
+    object ColumnRowScreen:Screens("columnRowScreen")
+    object GridRowScreen:Screens("gridRowScreen")
+}
+
+
+@Composable
+fun ListNavigation() {
+
+    // the driver -> "Go to another screen."
+    val navController = rememberNavController()
+
+    // This is the map -> If someone navigates to 'lazyRowScreen', show LazyListScreen().
+    NavHost(
+        navController = navController,
+        startDestination = Screens.HomeScreen.route
+    ) {
+        composable(Screens.HomeScreen.route){
+            HomeScreen(
+                navController = navController
+            )
+        }
+
+
+        composable(Screens.LazyRowScreen.route){
+            LazyListScreen()
+        }
+
+        composable(Screens.ColumnRowScreen.route){
+            ColumnListScreen()
+        }
+
+        composable(Screens.GridRowScreen.route){
+            GridListScreen()
+        }
+    }
+}
+
+
+
+
+
 
 data class ListItems(
     val name : String,
@@ -80,6 +135,7 @@ val myListItems = listOf(
     ListItems("sandwich",R.drawable.sandwich),
     ListItems("sushi",R.drawable.sushi),
 )
+
 
 // what one item Will Look like
 
@@ -122,26 +178,60 @@ fun MyItem(
 
 }
 
-
 @Composable
-fun LazyListScreen(modifier: Modifier = Modifier) {
+fun LazyListScreen() {
 
+    LazyRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+    ) {
+        items(myListItems){item ->
+           MyItem(myAllList = item)
+        }
+    }
 }
 
 @Composable
-fun ColumnListScreen(modifier: Modifier = Modifier) {
+fun ColumnListScreen() {
 
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
+        items(myListItems){item ->
+
+            MyItem(myAllList = item)
+        }
+    }
 }
 
-@Composable
-fun GridListScreen(modifier: Modifier = Modifier) {
+//columns = GridCells.Fixed(2),
+//            contentPadding = PaddingValues(10.dp),
+//            verticalArrangement = Arrangement.spacedBy(10.dp),
+//            horizontalArrangement = Arrangement.spacedBy(13.dp),
 
+
+@Composable
+fun GridListScreen() {
+
+    LazyHorizontalGrid(
+        rows = GridCells.Fixed(2),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp)
+    ) {
+        items(myListItems){item ->
+            MyItem(myAllList = item)
+        }
+    }
 }
 
 
-
 @Composable
-fun ListInCompose(navController: NavController) {
+fun HomeScreen(navController: NavController) {
+
 
     Column(
         modifier = Modifier
@@ -160,7 +250,7 @@ fun ListInCompose(navController: NavController) {
             modifier = Modifier
                 .width(180.dp),
             onClick = {
-                navController.navigate("lazyRowScreen")
+                navController.navigate(Screens.LazyRowScreen.route)
             },
             shape = RoundedCornerShape(5.dp),
             colors = ButtonDefaults.buttonColors(
@@ -176,7 +266,7 @@ fun ListInCompose(navController: NavController) {
             modifier = Modifier
                 .width(180.dp),
             onClick = {
-                navController.navigate("columnRowScreen")
+                navController.navigate(Screens.ColumnRowScreen.route)
             },
             shape = RoundedCornerShape(5.dp),
             colors = ButtonDefaults.buttonColors(
@@ -192,7 +282,7 @@ fun ListInCompose(navController: NavController) {
             modifier = Modifier
                 .width(180.dp),
             onClick = {
-                navController.navigate("gridRowScreen")
+                navController.navigate(Screens.GridRowScreen.route)
             },
             shape = RoundedCornerShape(5.dp),
             colors = ButtonDefaults.buttonColors(
@@ -446,6 +536,7 @@ fun Dialog() {
 }
 
 
+
 data class Items(
     val isChecked: Boolean,
     val task: String
@@ -481,7 +572,7 @@ fun TodoListCheckbox() {
 
         //For each to-do item in my list, do something.
         // index → its position (0, 1, 2…)
-        // items → the actual todo item
+        // items → the actual todoitem
 
         todoList.forEachIndexed { index, items ->
 
