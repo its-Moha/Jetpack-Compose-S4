@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -70,7 +71,6 @@ import coil3.request.ImageRequest
 import coil3.size.Size
 
 
-
 sealed class Screens(val route:String){
     object HomeScreen:Screens("homeScreen")
     object LazyRowScreen:Screens("lazyRowScreen")
@@ -82,7 +82,8 @@ sealed class Screens(val route:String){
 @Composable
 fun ListNavigation() {
 
-    // the driver -> "Go to another screen."
+
+      // the driver -> "Go to another screen."
     val navController = rememberNavController()
 
     // This is the map -> If someone navigates to 'lazyRowScreen', show LazyListScreen().
@@ -90,29 +91,26 @@ fun ListNavigation() {
         navController = navController,
         startDestination = Screens.HomeScreen.route
     ) {
-        composable(Screens.HomeScreen.route){
+        composable(Screens.HomeScreen.route) {
             HomeScreen(
                 navController = navController
             )
         }
 
 
-        composable(Screens.LazyRowScreen.route){
+        composable(Screens.LazyRowScreen.route) {
             LazyListScreen()
         }
 
-        composable(Screens.ColumnRowScreen.route){
+        composable(Screens.ColumnRowScreen.route) {
             ColumnListScreen()
         }
 
-        composable(Screens.GridRowScreen.route){
+        composable(Screens.GridRowScreen.route) {
             GridListScreen()
         }
     }
 }
-
-
-
 
 
 
@@ -151,7 +149,6 @@ fun MyItem(
         shape = RoundedCornerShape(10.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
 
@@ -181,13 +178,17 @@ fun MyItem(
 @Composable
 fun LazyListScreen() {
 
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxSize()
+        .padding(7.dp)
+        .background(Color.LightGray),
+        contentAlignment = Alignment.Center
     ) {
-        items(myListItems){item ->
-           MyItem(myAllList = item)
+        LazyRow {
+            items(myListItems) { item ->
+                MyItem(myAllList = item)
+            }
         }
     }
 }
@@ -195,14 +196,24 @@ fun LazyListScreen() {
 @Composable
 fun ColumnListScreen() {
 
-    LazyColumn(
+    Box(
         modifier = Modifier
+            .fillMaxWidth()
             .fillMaxSize()
-            .padding(10.dp)
+            .padding(7.dp)
+            .background(Color.LightGray),
+        contentAlignment = Alignment.Center
     ) {
-        items(myListItems){item ->
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
 
-            MyItem(myAllList = item)
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            items(myListItems) { item ->
+
+                MyItem(myAllList = item)
+            }
         }
     }
 }
@@ -216,18 +227,26 @@ fun ColumnListScreen() {
 @Composable
 fun GridListScreen() {
 
-    LazyHorizontalGrid(
-        rows = GridCells.Fixed(2),
+    Box(
         modifier = Modifier
+            .fillMaxWidth()
             .fillMaxSize()
-            .padding(10.dp)
+            .padding(7.dp)
+            .background(Color.LightGray),
+        contentAlignment = Alignment.Center
     ) {
-        items(myListItems){item ->
-            MyItem(myAllList = item)
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(13.dp),
+        ) {
+            items(myListItems) { item ->
+                MyItem(myAllList = item)
+            }
         }
     }
 }
-
 
 @Composable
 fun HomeScreen(navController: NavController) {

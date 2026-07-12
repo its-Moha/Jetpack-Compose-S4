@@ -18,7 +18,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposes4.ui.theme.JetpackComposeS4Theme
 import kotlinx.coroutines.launch
 
@@ -137,19 +136,38 @@ fun Tap1(){
 @Composable
 fun Tap2() {
 
-    val navController = rememberNavController()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        ListNavigation()
-        LoadImage()
-        Dialog()
-        TodoListCheckbox()
-        Chips(listOf("Android", "Kotlin", "Compose","Retrofit","MVVM","Dagger/Hilt","Room","Coroutines","KOIN"))
 
+    ) {
+
+        ListNavigation()
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            LoadImage()
+            Dialog()
+            TodoListCheckbox()
+            Chips(
+                listOf(
+                    "Android",
+                    "Kotlin",
+                    "Compose",
+                    "Retrofit",
+                    "MVVM",
+                    "Dagger/Hilt",
+                    "Room",
+                    "Coroutines",
+                    "KOIN"
+                )
+            )
+
+        }
     }
 }
 @Composable
