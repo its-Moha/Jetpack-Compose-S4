@@ -52,7 +52,7 @@ fun MyTabs() {
     //keeps track of which page (tab) is currently visible.
     val pagerState = rememberPagerState(
 
-        initialPage = 1, //start on the first tab
+        initialPage = 2, //start on the first tab
         pageCount = {
             tablist.size //tells the pager how many pages there are.
         }
@@ -177,7 +177,7 @@ fun Tap3() {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-
+        TimePickerExample()
 
     }
 }
