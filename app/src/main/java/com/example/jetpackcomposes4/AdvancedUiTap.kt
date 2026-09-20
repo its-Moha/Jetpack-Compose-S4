@@ -3,23 +3,24 @@ package com.example.jetpackcomposes4
 import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 
 
 @Composable
@@ -83,10 +84,7 @@ fun TimePickerExample() {
         is24Hour = true
     )
 
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally  // Center all children
-    ) {
+    Column{
 
         Button(
             onClick = {
@@ -94,7 +92,7 @@ fun TimePickerExample() {
             },
 
         ) {
-            Text("Show Time")
+            Text("Display Time")
         }
 
 
@@ -129,7 +127,67 @@ fun TimePickerExample() {
 }
 
 
+@Composable
+fun DatePickerExample() {
 
+    var showDialog by remember { mutableStateOf(false) }
+    var showResult by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val currentDate = Calendar.getInstance()
+
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = currentDate.timeInMillis
+    )
+
+    Column{
+        Button(
+            onClick = {
+                showDialog = true
+            }
+        ) {
+            Text("Display Date")
+        }
+
+        if (showDialog){
+
+           DateAndTimeDialog(
+               onDismiss = {
+                   showDialog = false
+               },
+               onConfirm =  {
+
+                   val selectedDateInMillis = datePickerState.selectedDateMillis
+
+                   selectedDateInMillis?.let {
+
+
+                       val formatter = SimpleDateFormat(
+                           "dd/MM/yyy",
+                           java.util.Locale.getDefault()
+                       )
+
+                       val readableStringDate = formatter.format(Date(it))
+
+                       showResult = readableStringDate
+
+                       Toast.makeText(context, "Your Date Is Added", Toast.LENGTH_SHORT).show()
+
+                       showDialog = false
+                   }
+               }
+
+           ) {
+               DatePicker(state = datePickerState)
+           }
+
+        }
+
+        if (showResult.isNotEmpty()){
+            Text("Date is: $showResult", fontSize = 20.sp)
+        }
+    }
+
+}
 
 
 
