@@ -181,6 +181,7 @@ fun Tap3() {
         modifier = Modifier
             .padding(top = 14.dp)
             .fillMaxSize()
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState()),
        horizontalAlignment = Alignment.CenterHorizontally
     ) {

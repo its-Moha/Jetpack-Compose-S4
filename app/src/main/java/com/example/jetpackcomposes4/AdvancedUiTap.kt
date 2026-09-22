@@ -23,6 +23,13 @@ import java.util.Calendar
 import java.util.Date
 
 
+//This function creates a reusable dialog.
+//┌─────────────────────────┐
+//│                         │
+//│      YOUR CONTENT       │
+//│                         │
+//│ [Dismiss]     [Confirm] │
+//└─────────────────────────┘
 @Composable
 fun DateAndTimeDialog(
     onConfirm: () -> Unit,
@@ -32,6 +39,7 @@ fun DateAndTimeDialog(
     // you allow the caller to pass in other UI elements
     // (like a TimePicker) to be displayed inside the dialog.
     content: @Composable () -> Unit,
+
     ) {
 
 
@@ -61,12 +69,17 @@ fun DateAndTimeDialog(
             }
         },
 
+        //This function creates a reusable dialog.
+        //This means:
+        //"Give me any Compose UI you want, and I will put it inside the dialog."
+        //That's why you can put a TimePicker in one place and a DatePicker in another.
         text = {
             content()
         },
 
     )
 }
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,10 +89,20 @@ fun TimePickerExample() {
     var showDialog by remember { mutableStateOf(false) }
     var showResult by remember { mutableStateOf("") }
     val context = LocalContext.current
+
+    //This gets the current date and time from the device.
     val currentTime = Calendar.getInstance()
 
+    //This creates the state that controls the TimePicker.
+    //Hour   = 16
+    //Minute = 25
+    //It keeps track of things like:
+    // the selected hour the selected minute and whether the picker uses 24-hour format
     val timePickerState = rememberTimePickerState(
+        //This gets the current hour from currentTime.
         initialHour = currentTime.get(Calendar.HOUR),
+
+        //This gets the current minute.
         initialMinute = currentTime.get(Calendar.MINUTE),
         is24Hour = true
     )
@@ -95,14 +118,20 @@ fun TimePickerExample() {
             Text("Display Time")
         }
 
-
+        //Only show the dialog when showDialog is true.
         if (showDialog) {
+
             DateAndTimeDialog(
                 onDismiss = {
                     showDialog = false
                 },
 
                 onConfirm = {
+                    // formats the time
+                    //hour = 9
+                    //minute = 5
+                    //becomes: 09:05 instead of  9:5
+
                     showResult = String.format(
                         "%02d:%02d",
                         timePickerState.hour,
@@ -113,9 +142,13 @@ fun TimePickerExample() {
                         Toast.makeText(context,"Time Is Added", Toast.LENGTH_SHORT).show()
                     }
 
+                    // after pressing confirm close the dialog
                     showDialog = false
                 }
             ) {
+
+
+                //Displays the TimePicker UI and connects it to that state.
                 TimePicker(state = timePickerState)
             }
         }
@@ -156,16 +189,20 @@ fun DatePickerExample() {
                },
                onConfirm =  {
 
+                   // get selected date in milliseconds
                    val selectedDateInMillis = datePickerState.selectedDateMillis
 
+                   // convert milliseconds to readable date
                    selectedDateInMillis?.let {
-
-
                        val formatter = SimpleDateFormat(
-                           "dd/MM/yyy",
+                           "dd/MM/yyyy",
                            java.util.Locale.getDefault()
                        )
 
+                       //Date(it) creates a Date object from the milliseconds value.
+                       //Converts milliseconds into a Date object
+                       //
+                       //formatter.format(Date(it)) converts that Date object into readable text.
                        val readableStringDate = formatter.format(Date(it))
 
                        showResult = readableStringDate
