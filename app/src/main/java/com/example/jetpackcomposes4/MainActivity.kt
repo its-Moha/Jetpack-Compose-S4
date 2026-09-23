@@ -181,14 +181,15 @@ fun Tap3() {
         modifier = Modifier
             .padding(top = 14.dp)
             .fillMaxSize()
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState()),
-       horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxWidth(),
+       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TimePickerExample()
         Spacer(modifier = Modifier.padding(8.dp))
         DatePickerExample()
 
+        Spacer(modifier = Modifier.padding(12.dp))
+        VideoPlayer()
     }
 }
 
