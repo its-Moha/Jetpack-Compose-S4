@@ -7,10 +7,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
@@ -267,7 +271,7 @@ fun VideoPlayer() {
     val playWhenReady by rememberSaveable {
 
         //This variable controls whether the video should start playing automatically.
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
 
     //attach the ExoPlayer to the PlayerView.
@@ -309,7 +313,67 @@ fun VideoPlayer() {
 }
 
 
+@Composable
+fun AudiPlayer() {
 
+    val audioUrl ="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
+
+    val context = LocalContext.current
+
+    //// Remember the player so it's not recreated on recomposition
+    val audioPlayer = remember {
+
+        ExoPlayer.Builder(context).build().apply {
+
+            setMediaItem(MediaItem.fromUri(audioUrl))
+
+            //this stops autoplay when returning
+            playWhenReady = false
+
+            prepare()
+        }
+
+    }
+
+
+    var isPlaying by remember {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(isPlaying) {
+        if (isPlaying){
+            audioPlayer.play()
+        } else{
+            audioPlayer.pause()
+        }
+    }
+
+
+
+    Button(
+        onClick = {
+            isPlaying = !isPlaying
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp)
+            .padding(10.dp)
+
+    ) {
+        Icon(
+            imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+            contentDescription = null,
+        )
+
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            audioPlayer.release()
+        }
+    }
+
+}
 
 
 

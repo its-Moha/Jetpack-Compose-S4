@@ -190,6 +190,9 @@ fun Tap3() {
 
         Spacer(modifier = Modifier.padding(12.dp))
         VideoPlayer()
+
+        Spacer(modifier = Modifier.padding(12.dp))
+        AudiPlayer()
     }
 }
 
