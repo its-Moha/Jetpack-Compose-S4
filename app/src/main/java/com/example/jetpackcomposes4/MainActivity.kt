@@ -171,6 +171,7 @@ fun Tap2() {
                     "KOIN"
                 )
             )
+            BottomSheet()
 
         }
     }
@@ -185,13 +186,13 @@ fun Tap3() {
        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TimePickerExample()
-        Spacer(modifier = Modifier.padding(8.dp))
+        Spacer(modifier = Modifier.padding(6.dp))
         DatePickerExample()
 
-        Spacer(modifier = Modifier.padding(12.dp))
+        Spacer(modifier = Modifier.padding(6.dp))
         VideoPlayer()
 
-        Spacer(modifier = Modifier.padding(12.dp))
+        Spacer(modifier = Modifier.padding(6.dp))
         AudiPlayer()
     }
 }

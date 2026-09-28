@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -173,7 +174,7 @@ fun TimePickerExample() {
         }
 
         if (showResult.isNotEmpty()){
-            Text("time is: $showResult", fontSize = 20.sp)
+            Text("time is: $showResult",textAlign = TextAlign.Center, fontSize = 20.sp)
         }
     }
 }
@@ -192,56 +193,58 @@ fun DatePickerExample() {
     )
 
     Column{
-        Button(
-            onClick = {
-                showDialog = true
+
+            Button(
+                onClick = {
+                    showDialog = true
+                }
+            ) {
+                Text("Display Date")
             }
-        ) {
-            Text("Display Date")
+
+            if (showDialog) {
+
+                DateAndTimeDialog(
+                    onDismiss = {
+                        showDialog = false
+                    },
+                    onConfirm = {
+
+                        // get selected date in milliseconds
+                        val selectedDateInMillis = datePickerState.selectedDateMillis
+
+                        // convert milliseconds to readable date
+                        selectedDateInMillis?.let {
+                            val formatter = SimpleDateFormat(
+                                "dd/MM/yyyy",
+                                Locale.getDefault()
+                            )
+
+                            //Date(it) creates a Date object from the milliseconds value.
+                            //Converts milliseconds into a Date object
+                            //
+                            //formatter.format(Date(it)) converts that Date object into readable text.
+                            val readableStringDate = formatter.format(Date(it))
+
+                            showResult = readableStringDate
+
+                            Toast.makeText(context, "Your Date Is Added", Toast.LENGTH_SHORT).show()
+
+                            showDialog = false
+                        }
+                    }
+
+                ) {
+                    DatePicker(state = datePickerState)
+                }
+
+            }
+
+            if (showResult.isNotEmpty()) {
+                Text("Date is: $showResult",textAlign = TextAlign.Center, fontSize = 20.sp)
+            }
         }
 
-        if (showDialog){
-
-           DateAndTimeDialog(
-               onDismiss = {
-                   showDialog = false
-               },
-               onConfirm =  {
-
-                   // get selected date in milliseconds
-                   val selectedDateInMillis = datePickerState.selectedDateMillis
-
-                   // convert milliseconds to readable date
-                   selectedDateInMillis?.let {
-                       val formatter = SimpleDateFormat(
-                           "dd/MM/yyyy",
-                           Locale.getDefault()
-                       )
-
-                       //Date(it) creates a Date object from the milliseconds value.
-                       //Converts milliseconds into a Date object
-                       //
-                       //formatter.format(Date(it)) converts that Date object into readable text.
-                       val readableStringDate = formatter.format(Date(it))
-
-                       showResult = readableStringDate
-
-                       Toast.makeText(context, "Your Date Is Added", Toast.LENGTH_SHORT).show()
-
-                       showDialog = false
-                   }
-               }
-
-           ) {
-               DatePicker(state = datePickerState)
-           }
-
-        }
-
-        if (showResult.isNotEmpty()){
-            Text("Date is: $showResult", fontSize = 20.sp)
-        }
-    }
 
 }
 
@@ -296,27 +299,37 @@ fun VideoPlayer() {
 
     //lets you place a normal Android View inside Jetpack Compose.
 
-    AndroidView(
+    Column {
 
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(270.dp)
-            .padding(5.dp)
-            .clip(RoundedCornerShape(16.dp)),
+        Text(
+            text = "Video Player",
+            fontSize = 15.sp,
+            modifier = Modifier
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+        AndroidView(
 
-        //Return the PlayerView you created —
-        //this is what displays the video on screen.
-        factory = {
-            playerView
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(270.dp)
+                .padding(5.dp)
+                .clip(RoundedCornerShape(16.dp)),
 
-        })
+            //Return the PlayerView you created —
+            //this is what displays the video on screen.
+            factory = {
+                playerView
+
+            })
+    }
 }
 
 
 @Composable
 fun AudiPlayer() {
 
-    val audioUrl ="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
+    val audioUrl = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
 
     val context = LocalContext.current
 
@@ -341,22 +354,31 @@ fun AudiPlayer() {
     }
 
     LaunchedEffect(isPlaying) {
-        if (isPlaying){
+        if (isPlaying) {
             audioPlayer.play()
-        } else{
+        } else {
             audioPlayer.pause()
         }
     }
 
 
+    Column {
 
-    Button(
+        Text(
+            text = "Audio Player",
+            fontSize = 15.sp,
+            modifier = Modifier
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+
+        Button(
         onClick = {
             isPlaying = !isPlaying
         },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp)
+            .padding(top = 5.dp)
             .padding(10.dp)
 
     ) {
@@ -372,6 +394,7 @@ fun AudiPlayer() {
             audioPlayer.release()
         }
     }
+}
 
 }
 
