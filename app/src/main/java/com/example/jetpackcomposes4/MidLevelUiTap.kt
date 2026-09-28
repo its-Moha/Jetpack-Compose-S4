@@ -714,6 +714,94 @@ fun Chips(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BottomSheet() {
+
+
+    var showSheet by remember { mutableStateOf(false) }
+
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = false
+    )
+
+    Column(
+        modifier = Modifier
+            .padding(top = 5.dp)
+            .fillMaxWidth()
+            .padding(10.dp)
+            .height(120.dp)
+            .border(1.dp, Color.DarkGray),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+
+    ){
+        Button(
+            onClick = {
+                showSheet = true
+            }
+        ) {
+            Text("Show Bottom Sheet")
+        }
+
+        if (showSheet){
+            ModalBottomSheet(
+                onDismissRequest = {
+                    showSheet = false
+                },
+
+                sheetState = sheetState,
+
+                ) {
+
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .padding(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("This is Bottom Sheet")
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(5.dp)
+
+                            //After the title, spacers, and button take their space, give the remaining space to me
+                            .weight(1f)
+                            .fillMaxWidth()
+                    ) {
+                        items(100){index ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(3.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text("item $index")
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(
+                        onClick = {
+                            showSheet = false
+                        }
+                    ) {
+                        Text("Close Sheet")
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+
 
 
 
