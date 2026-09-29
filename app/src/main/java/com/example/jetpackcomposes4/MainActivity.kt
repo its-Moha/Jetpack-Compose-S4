@@ -13,7 +13,9 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposes4.ui.theme.JetpackComposeS4Theme
 import kotlinx.coroutines.launch
 
@@ -33,13 +38,56 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComposeS4Theme {
 
+                val navController = rememberNavController()
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
 
                 ) {
-                    Text()
-                    MyTabs()
+
+                   // Text()
+                    //MyTabs()
+
+                    Scaffold(
+                        bottomBar = {
+                            BottomNavigationBar(navController)
+                        }
+                    ) { paddingValues ->
+                        NavHost(
+                            navController = navController,
+                            startDestination = Screens.Ui.route,
+                            modifier = Modifier.padding(paddingValues),
+                        ) {
+                            composable(Screens.Ui.route){
+                                UiScreen()
+                            }
+
+                            composable(Screens.Android.route){
+                                AndroidScreen()
+                            }
+
+                            composable(Screens.Topics.route){
+                                TopicsScreen()
+                            }
+                            composable(Screens.Data.route){
+                                DataScreen()
+                            }
+
+
+                            composable(Screens.LazyRowScreen.route) {
+                                LazyListScreen()
+                            }
+
+                            composable(Screens.ColumnRowScreen.route) {
+                                ColumnListScreen()
+                            }
+
+                            composable(Screens.GridRowScreen.route) {
+                                GridListScreen()
+                            }
+                        }
+
+                    }
 
                 }
             }
@@ -57,7 +105,7 @@ fun MyTabs() {
     //keeps track of which page (tab) is currently visible.
     val pagerState = rememberPagerState(
 
-        initialPage = 2, //start on the first tab
+        initialPage = 0, //start on the first tab
         pageCount = {
             tablist.size //tells the pager how many pages there are.
         }
@@ -141,6 +189,8 @@ fun Tap1(){
 @Composable
 fun Tap2() {
 
+    val navController = rememberNavController()
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
@@ -148,13 +198,14 @@ fun Tap2() {
 
     ) {
 
-        ListNavigation()
+
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
         ) {
+            HomeScreen(navController)
             LoadImage()
             Dialog()
             TodoListCheckbox()

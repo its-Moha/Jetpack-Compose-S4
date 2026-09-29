@@ -75,46 +75,46 @@ import coil3.request.ImageRequest
 import coil3.size.Size
 
 
-sealed class Screens(val route:String){
-    object HomeScreen:Screens("homeScreen")
-    object LazyRowScreen:Screens("lazyRowScreen")
-    object ColumnRowScreen:Screens("columnRowScreen")
-    object GridRowScreen:Screens("gridRowScreen")
-}
+//sealed class Screens1(val route:String){
+//    object HomeScreen:Screens1("homeScreen")
+//    object LazyRowScreen:Screens1("lazyRowScreen")
+//    object ColumnRowScreen:Screens1("columnRowScreen")
+//    object GridRowScreen:Screens1("gridRowScreen")
+//}
 
-
-@Composable
-fun ListNavigation() {
-
-
-      // the driver -> "Go to another screen."
-    val navController = rememberNavController()
-
-    // This is the map -> If someone navigates to 'lazyRowScreen', show LazyListScreen().
-    NavHost(
-        navController = navController,
-        startDestination = Screens.HomeScreen.route
-    ) {
-        composable(Screens.HomeScreen.route) {
-            HomeScreen(
-                navController = navController
-            )
-        }
-
-
-        composable(Screens.LazyRowScreen.route) {
-            LazyListScreen()
-        }
-
-        composable(Screens.ColumnRowScreen.route) {
-            ColumnListScreen()
-        }
-
-        composable(Screens.GridRowScreen.route) {
-            GridListScreen()
-        }
-    }
-}
+//
+//@Composable
+//fun ListNavigation() {
+//
+//
+//      // the driver -> "Go to another screen."
+//    val navController = rememberNavController()
+//
+//    // This is the map -> If someone navigates to 'lazyRowScreen', show LazyListScreen().
+//    NavHost(
+//        navController = navController,
+//        startDestination = Screens1.HomeScreen.route
+//    ) {
+//        composable(Screens1.HomeScreen.route) {
+//            HomeScreen(
+//                navController = navController
+//            )
+//        }
+//
+//
+//        composable(Screens1.LazyRowScreen.route) {
+//            LazyListScreen()
+//        }
+//
+//        composable(Screens1.ColumnRowScreen.route) {
+//            ColumnListScreen()
+//        }
+//
+//        composable(Screens1.GridRowScreen.route) {
+//            GridListScreen()
+//        }
+//    }
+//}
 
 
 
