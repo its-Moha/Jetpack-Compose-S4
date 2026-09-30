@@ -1,6 +1,5 @@
 package com.example.jetpackcomposes4
 
-import android.app.FragmentManager
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,13 +8,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.SdStorage
-import androidx.compose.material.icons.filled.Topic
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
@@ -79,7 +75,7 @@ val navigationItems = listOf(
 
 
 @Composable
-fun UiScreen() {
+fun UiScreen(navController: NavController) {
 
     Box(
         modifier = Modifier
@@ -87,9 +83,9 @@ fun UiScreen() {
             .padding(2.dp),
         contentAlignment = Alignment.Center
     ) {
-        Column() {
+        Column {
             Text()
-            MyTabs()
+            MyTabs(navController)
         }
     }
 }

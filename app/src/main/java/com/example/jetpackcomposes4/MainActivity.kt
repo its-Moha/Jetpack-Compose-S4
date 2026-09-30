@@ -13,7 +13,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
@@ -25,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -59,7 +59,9 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.padding(paddingValues),
                         ) {
                             composable(Screens.Ui.route){
-                                UiScreen()
+                                UiScreen(
+                                    navController = navController
+                                )
                             }
 
                             composable(Screens.Android.route){
@@ -97,7 +99,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MyTabs() {
+fun MyTabs(navController: NavController) {
 
 
     val tablist = listOf("Basic Ui", "Mid-Level UI", "Advanced Ui")
@@ -157,7 +159,7 @@ fun MyTabs() {
         ) { page -> //is the index of the current page being shown.
             when(page){
               0 -> Tap1 ()
-              1 -> Tap2 ()
+              1 -> Tap2 (navController)
               2 -> Tap3 ()
             }
         }
@@ -187,9 +189,9 @@ fun Tap1(){
 
 
 @Composable
-fun Tap2() {
+fun Tap2(navController: NavController) {
 
-    val navController = rememberNavController()
+
     val scrollState = rememberScrollState()
 
     Column(
@@ -256,13 +258,14 @@ fun Tap3() {
 @Composable
 fun GreetingPreview() {
     JetpackComposeS4Theme {
+        val navController = rememberNavController()
         Column(
             modifier = Modifier
                 .fillMaxSize()
 
         ) {
             Text()
-            MyTabs()
+            MyTabs(navController)
         }
     }
 }
