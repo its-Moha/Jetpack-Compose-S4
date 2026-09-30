@@ -224,7 +224,9 @@ fun Tap2(navController: NavController) {
                     "KOIN"
                 )
             )
+            DropDownMenu()
             BottomSheet()
+
 
         }
     }

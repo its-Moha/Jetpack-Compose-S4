@@ -29,6 +29,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.rounded.ImageNotSupported
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -37,6 +39,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -799,11 +803,89 @@ fun BottomSheet() {
 }
 
 
+@Composable
+fun DropDownMenu() {
+
+    var expanded by remember { mutableStateOf(false) }
+
+    var selectedItem by remember { mutableStateOf("Select Item") }
 
 
+    Column(
+        modifier = Modifier
+            .padding(top = 5.dp)
+            .fillMaxWidth()
+            .padding(10.dp)
+            .height(120.dp)
+            .border(1.dp, Color.DarkGray),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+
+    ) {
+
+        Box {
+            Button(
+                onClick = {
+                    expanded = true
+                }) {
+
+                // the button will show this text from the selectedItem
+                Text(selectedItem)
+                Icon(
+                    imageVector = if (expanded) {
+                        Icons.Default.ArrowDropUp
+                    } else {
+                        Icons.Default.ArrowDropDown
+                    },
+                    contentDescription = null
+                )
+            }
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = {
+                    expanded = false
+                }
+            ) {
+                DropdownMenuItem(
+                    text = {
+                        Text("Kotlin")
+                    },
+                    onClick = {
+
+                        // the button will show this text
+                        selectedItem = "Kotlin"
+
+                        // when you select the dropdown closes
+                        expanded = false
+                    }
+                )
+
+                DropdownMenuItem(
+                    text = {
+                        Text("Jetpack Compose")
+                    },
+                    onClick = {
+                        selectedItem = "Jetpack Compose"
+                        expanded = false
+                    }
+                )
+
+                DropdownMenuItem(
+                    text = {
+                        Text("MVVM")
+                    },
+                    onClick = {
+                        selectedItem = "MVVM"
+                        expanded = false
+                    }
+                )
+            }
+        }
 
 
-
+    }
+}
 
 
 
