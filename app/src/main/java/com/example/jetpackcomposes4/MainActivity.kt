@@ -49,6 +49,12 @@ class MainActivity : ComponentActivity() {
                     //MyTabs()
 
                     Scaffold(
+                        
+                        topBar = {
+                            TopAppBar(onclick = {
+
+                            })
+                        },
                         bottomBar = {
                             BottomNavigationBar(navController)
                         }
