@@ -26,7 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 @Composable
 fun TopAppBar(
 
-    onclick: () -> Unit
+    onNavIconClicked: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -38,7 +38,7 @@ fun TopAppBar(
         },
 
         navigationIcon = {
-            IconButton(onclick) {
+            IconButton(onNavIconClicked) {
                 Icon(
                     Icons.Default.Menu,
                     tint = Color.Black,

@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         
                         topBar = {
-                            TopAppBar(onclick = {
+                            TopAppBar(onNavIconClicked = {
 
                             })
                         },
