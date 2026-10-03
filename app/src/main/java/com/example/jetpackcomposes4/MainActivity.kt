@@ -12,11 +12,14 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -27,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposes4.ui.theme.JetpackComposeS4Theme
 import kotlinx.coroutines.launch
@@ -39,17 +43,10 @@ class MainActivity : ComponentActivity() {
             JetpackComposeS4Theme {
 
                 val navController = rememberNavController()
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
 
-                ) {
-
-                   // Text()
-                    //MyTabs()
 
                     Scaffold(
-                        
+
                         topBar = {
                             TopAppBar(onNavIconClicked = {
 
@@ -101,7 +98,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
+
 
 
 @Composable
