@@ -1,15 +1,14 @@
 package com.example.jetpackcomposes4
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
@@ -21,58 +20,56 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.nio.file.WatchEvent
 
 @Composable
 fun Header() {
 
     Box(
         modifier = Modifier
-            .padding(5.dp)
             .fillMaxWidth()
-            .fillMaxHeight(0.4f),
+            .fillMaxHeight(0.4f)
+            .padding(5.dp)
+            .background(Color.Gray),
         contentAlignment = Alignment.Center
     ) {
-        Text("Header", fontSize = 17.sp)
+        Text("Header", fontSize = 18.sp)
     }
-
 }
 
-data class MyMenuItem(
-    var title: String,
-    var icon: ImageVector,
+data class NavMenus(
+    val title:String,
+    val icon: ImageVector,
     val disc: String,
     val route: String
 )
 
-val myItems = listOf(
-    MyMenuItem(
+val navBarItems = listOf(
+    NavMenus(
         title = "Ui",
         icon = Icons.Default.Dashboard,
         disc = "Ui",
         route = Screens.Ui.route
     ),
 
-    MyMenuItem(
+    NavMenus(
         title = "Android",
         icon = Icons.Default.Android,
         disc = "Android",
         route = Screens.Android.route
     ),
 
-
-    MyMenuItem(
+    NavMenus(
         title = "Topics",
         icon = Icons.AutoMirrored.Filled.MenuBook,
         disc = "Topics",
         route = Screens.Topics.route
     ),
 
-    MyMenuItem(
+    NavMenus(
         title = "Data",
         icon = Icons.Default.SdStorage,
         disc = "Data",
@@ -81,31 +78,27 @@ val myItems = listOf(
 
 )
 
-
-
 @Composable
 fun DrawerBody(
-    onItemClick : (MyMenuItem) -> Unit
+    onItemNavClick: (NavMenus) -> Unit
 ) {
 
+    LazyColumn{
+        items(navBarItems){item ->
 
-    LazyColumn(
-        modifier = Modifier
-            .padding(5.dp)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .clickable { (onItemNavClick(item)) }
+            ) {
 
-    ) {items(myItems) { item ->
-        Row(
-            modifier = Modifier
-                .padding(5.dp)
-                .fillMaxWidth()
-                .clickable{onItemClick(item)}
-        ) {
-
-                Icon(item.icon, item.disc)
+                Icon(item.icon,item.disc)
                 Spacer(modifier = Modifier.padding(5.dp))
-                Text(item.title, fontSize = 20.sp)
+                Text(item.title, fontSize = 18.sp)
             }
-        }
 
-}
+        }
+    }
+
 }

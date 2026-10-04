@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
@@ -44,55 +46,83 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberNavController()
 
+                val backStackEntry = navController.currentBackStackEntryAsState()
+                val currentRoute = backStackEntry.value?.destination?.route
 
-                    Scaffold(
+                val drawState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
-                        topBar = {
-                            TopAppBar(onNavIconClicked = {
-
-                            })
-                        },
-                        bottomBar = {
-                            BottomNavigationBar(navController)
-                        }
-                    ) { paddingValues ->
-                        NavHost(
-                            navController = navController,
-                            startDestination = Screens.Ui.route,
-                            modifier = Modifier.padding(paddingValues),
+                val scope = rememberCoroutineScope()
+                ModalNavigationDrawer(
+                    drawerState = drawState,
+                    drawerContent = {
+                        ModalDrawerSheet(
+                            modifier = Modifier.fillMaxWidth(0.8f)
                         ) {
-                            composable(Screens.Ui.route){
-                                UiScreen(
-                                    navController = navController
-                                )
-                            }
-
-                            composable(Screens.Android.route){
-                                AndroidScreen()
-                            }
-
-                            composable(Screens.Topics.route){
-                                TopicsScreen()
-                            }
-                            composable(Screens.Data.route){
-                                DataScreen()
-                            }
-
-
-                            composable(Screens.LazyRowScreen.route) {
-                                LazyListScreen()
-                            }
-
-                            composable(Screens.ColumnRowScreen.route) {
-                                ColumnListScreen()
-                            }
-
-                            composable(Screens.GridRowScreen.route) {
-                                GridListScreen()
-                            }
+                            Header()
+                            DrawerBody(onItemNavClick = {
+                                scope.launch {
+                                    drawState.close()
+                                }
+                            })
                         }
+                    },
 
+                    gesturesEnabled = drawState.isOpen,
+                    content = {
+                        Scaffold(
+
+                            topBar = {
+                                TopAppBar(onNavIconClicked = {
+                                    scope.launch {
+                                        drawState.open()
+                                    }
+                                })
+                            },
+                            bottomBar = {
+                                BottomNavigationBar(navController)
+                            }
+                        ) { paddingValues ->
+                            NavHost(
+                                navController = navController,
+                                startDestination = Screens.Ui.route,
+                                modifier = Modifier.padding(paddingValues),
+                            ) {
+                                composable(Screens.Ui.route){
+                                    UiScreen(
+                                        navController = navController
+                                    )
+                                }
+
+                                composable(Screens.Android.route){
+                                    AndroidScreen()
+                                }
+
+                                composable(Screens.Topics.route){
+                                    TopicsScreen()
+                                }
+                                composable(Screens.Data.route){
+                                    DataScreen()
+                                }
+
+
+                                composable(Screens.LazyRowScreen.route) {
+                                    LazyListScreen()
+                                }
+
+                                composable(Screens.ColumnRowScreen.route) {
+                                    ColumnListScreen()
+                                }
+
+                                composable(Screens.GridRowScreen.route) {
+                                    GridListScreen()
+                                }
+                            }
+
+                        }
                     }
+                )
+
+
 
                 }
             }
