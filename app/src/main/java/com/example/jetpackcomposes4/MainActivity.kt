@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpackcomposes4.ui.theme.JetpackComposeS4Theme
 import kotlinx.coroutines.launch
@@ -45,9 +43,6 @@ class MainActivity : ComponentActivity() {
             JetpackComposeS4Theme {
 
                 val navController = rememberNavController()
-
-                val backStackEntry = navController.currentBackStackEntryAsState()
-                val currentRoute = backStackEntry.value?.destination?.route
 
                 val drawState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
@@ -62,6 +57,43 @@ class MainActivity : ComponentActivity() {
                             DrawerBody(onItemNavClick = {
                                 scope.launch {
                                     drawState.close()
+                                }
+
+                                when(it.id){
+
+                                    "Ui" -> navController.navigate(Screens.Ui.route){
+                                        popUpTo(navController.graph.startDestinationId){
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                    "Android" -> navController.navigate(Screens.Android.route){
+                                        popUpTo(navController.graph.startDestinationId){
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+
+
+                                    "Topics" -> navController.navigate(Screens.Topics.route){
+                                        popUpTo(navController.graph.startDestinationId){
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+
+
+                                    "Data" -> navController.navigate(Screens.Data.route){
+                                        popUpTo(navController.graph.startDestinationId){
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+
                                 }
                             })
                         }

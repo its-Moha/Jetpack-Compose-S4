@@ -41,39 +41,44 @@ fun Header() {
 }
 
 data class NavMenus(
+    val id: String,
     val title:String,
     val icon: ImageVector,
     val disc: String,
-    val route: String
+
 )
 
 val navBarItems = listOf(
     NavMenus(
+        id = "Ui",
         title = "Ui",
         icon = Icons.Default.Dashboard,
         disc = "Ui",
-        route = Screens.Ui.route
+
     ),
 
     NavMenus(
+        id = "Android",
         title = "Android",
         icon = Icons.Default.Android,
         disc = "Android",
-        route = Screens.Android.route
+
     ),
 
     NavMenus(
+        id = "Topics",
         title = "Topics",
         icon = Icons.AutoMirrored.Filled.MenuBook,
         disc = "Topics",
-        route = Screens.Topics.route
+
     ),
 
     NavMenus(
+        id = "Data",
         title = "Data",
         icon = Icons.Default.SdStorage,
         disc = "Data",
-        route = Screens.Data.route
+
     ),
 
 )
