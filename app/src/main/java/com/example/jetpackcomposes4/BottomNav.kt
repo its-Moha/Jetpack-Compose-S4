@@ -100,7 +100,7 @@ fun AndroidScreen() {
             .padding(2.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text("Android Screen")
+        AndroidScreenTaps()
     }
 }
 @Composable
