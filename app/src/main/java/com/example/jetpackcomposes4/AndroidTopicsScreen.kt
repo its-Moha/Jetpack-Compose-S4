@@ -1,11 +1,18 @@
 package com.example.jetpackcomposes4
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
@@ -14,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
 import kotlinx.coroutines.launch
 
 @Composable
@@ -73,16 +82,8 @@ fun AndroidScreenTaps(){
     }
 }
 
-@Composable
-fun Tap5() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        Text("Tap5")
-    }
-}
+
+
 
 @Composable
 fun Tap4() {
@@ -91,6 +92,57 @@ fun Tap4() {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        Text("Tap6")
+
+
     }
+
+
 }
+@Composable
+fun Tap5() {
+    TODO("Not yet implemented")
+}
+
+
+// val context = LocalContext.current
+//
+//        val permissionLauncher = rememberLauncherForActivityResult(
+//            contract = ActivityResultContracts.RequestPermission()
+//        ) { isGranted ->
+//
+//            if (isGranted) {
+//                showNotification(context)
+//            }
+//        }
+//
+//        Button(
+//            onClick = {
+//
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//
+//                    permissionLauncher.launch(
+//                        Manifest.permission.POST_NOTIFICATIONS
+//                    )
+//
+//                } else {
+//                    if (ActivityCompat.checkSelfPermission(
+//                            this as Context,
+//                            Manifest.permission.POST_NOTIFICATIONS
+//                        ) != PackageManager.PERMISSION_GRANTED
+//                    ) {
+//                        // TODO: Consider calling
+//                        //    ActivityCompat#requestPermissions
+//                        // here to request the missing permissions, and then overriding
+//                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                        //                                          int[] grantResults)
+//                        // to handle the case where the user grants the permission. See the documentation
+//                        // for ActivityCompat#requestPermissions for more details.
+//                        return@Button
+//                    }
+//                    showNotification(context)
+//                }
+//            }
+//        ) {
+//            Text("Show Notification")
+//        }
+//    }
