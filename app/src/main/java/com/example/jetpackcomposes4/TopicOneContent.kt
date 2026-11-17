@@ -1,6 +1,7 @@
 package com.example.jetpackcomposes4
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -8,55 +9,54 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresPermission
-import androidx.compose.runtime.Composable
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import kotlin.jvm.java
 
 
+@SuppressLint("SuspiciousIndentation")
 @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
-fun showNotification(context: Context) {
+fun createNotificationChannel(context: Context){
 
-    val channelId = "myChannel" //Unique ID for the channel.
-    val notificationChannel = "My Notifications"  // Name displayed in Android settings.
-    val importance = NotificationManager.IMPORTANCE_DEFAULT
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val channel = NotificationChannel(
-            channelId,
-            notificationChannel,
-            importance
+            "myChannel",
+            "my_Notification",
+            NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
-            description = "This Is Notification Channel"
+            description = "This is my notification Channel"
         }
 
-        val manager = context.getSystemService(
-            NotificationManager::class.java
-        )
+        val notificationManager = context.getSystemService(
+            Context.NOTIFICATION_SERVICE
+        ) as NotificationManager
 
-        manager.createNotificationChannel(channel)
+        notificationManager.createNotificationChannel(channel)
     }
 
 
-    // Create an explicit intent for an Activity in your app
+
+
     val intent = Intent(context, MainActivity::class.java).apply {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     }
-    val pendingIntent: PendingIntent =
-        PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
+    val pendingIntent  = PendingIntent.getActivity(context,0,intent, PendingIntent.FLAG_IMMUTABLE)
 
     val notification = NotificationCompat.Builder(
-        context, channelId
-    )
-        .setSmallIcon(R.drawable.notification)
-        .setContentTitle("Hello!")
-        .setContentText("Welcome to my application.")
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .setContentIntent(pendingIntent)
-        .setAutoCancel(true)
-        .build()
+            context, "myChannel"
+        )
 
-    NotificationManagerCompat.from(context)
-        .notify(1, notification)
-}
+            .setSmallIcon(R.drawable.notification)
+            .setContentTitle("Hello")
+            .setContentText("This is my Notification")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .build()
+
+
+        NotificationManagerCompat.from(context)
+            .notify(1,notification)
+    }
+
